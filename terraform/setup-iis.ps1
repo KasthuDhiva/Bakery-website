@@ -2,10 +2,10 @@
 Enable-WindowsOptionalFeature -Online -FeatureName IIS-WebServerRole -All;
 
 # Ensure the folder exists
-$siteName = 'DuplicateSite'
-$sitePath = 'C:\inetpub\wwwroot\DuplicateSite'
+$siteName = 'BakerySite'
+$sitePath = 'C:\inetpub\wwwroot\BakerySite'
 $bindingIP = '*'
-$bindingPort = 8090
+$bindingPort = 1213
 
 Write-Output "Ensuring folder exists at: $sitePath"
 if (-not (Test-Path $sitePath)) {
