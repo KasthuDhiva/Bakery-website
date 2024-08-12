@@ -1,0 +1,42 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'main',
+                    url: 'https://github.com/KasthuDhiva/Bakery-website',
+                    credentialsId: 'Kasthu_github'
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                // Copy files to the IIS web root directory
+                bat 'xcopy /s /y .\\* "C:\\inetpub\\wwwroot\\Bakery_Jenkins_WebSite\\"'
+                
+                // Create or update the IIS website using PowerShell
+                powershell '''
+                $siteName = "Bakery_Jenkins_WebSite"
+                $sitePath = "C:\\inetpub\\wwwroot\\Bakery_Jenkins_WebSite"
+                $bindingIP = "*"
+                $bindingPort = 3000
+
+                # Check if the site exists
+                $site = Get-Website | Where-Object { $_.Name -eq $siteName }
+
+                if ($null -eq $site) {
+                    # Create a new site if it doesn't exist
+                    New-Website -Name $siteName -PhysicalPath $sitePath -Port $bindingPort 
+                } else {
+                    # Update the existing site
+                    Set-ItemProperty "IIS:\\Sites\\$siteName" -Name physicalPath -Value $sitePath
+                    Remove-WebBinding -Name $siteName -IPAddress $bindingIP -Port $bindingPort
+                    New-WebBinding -Name $siteName -IPAddress $bindingIP -Port $bindingPort 
+                    Start-Website -Name $siteName
+                }
+                '''
+            }
+        }
+    }
+}
