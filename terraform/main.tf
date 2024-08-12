@@ -15,5 +15,5 @@ resource "null_resource" "iis_setup" {
 }
 
 output "iis_website_url" {
-  value = "http://localhost:8090"
+  value = "http://localhost:1213"
 }
