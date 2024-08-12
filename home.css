@@ -7,7 +7,7 @@
 .Navbar-Menu{
     width: 100%;
     height: 100vh;
-    background-image: linear-gradient(rgba(0,0,0,0.2),rgba(0,0,0,0.2)),url('images/back.jpg');
+    background-image: linear-gradient(rgba(0,0,0,0.2),rgba(0,0,0,0.2)),url('https://static.toiimg.com/photo/48053276.cms');
     background-repeat: no-repeat;
     background-size: cover;
 }
